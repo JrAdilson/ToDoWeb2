@@ -5,48 +5,58 @@
  */
 package br.edu.unipam.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author JrAdilson
  */
-@MappedSuperclass
-public abstract class AbstractEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  protected Long id;
+@Entity
+public class Tarefa extends AbstractEntity implements Serializable {
 
-  public Date getDataCriacao() {
-    return DataCriacao;
-  }
+    @NotNull
+    @Size(min = 5, max = 100)
+    @Column(name = "DescricaoTarefa")
+    private String Descricao;
 
-  public void setDataCriacao(Date DataCriacao) {
-    this.DataCriacao = DataCriacao;
-  }
+    @NotNull
+    private LocalDate DataPrevista;
 
-  public Date getDataAlteracao() {
-    return DataAlteracao;
-  }
+    private LocalDate DataTermino;
 
-  public void setDataAlteracao(Date DataAlteracao) {
-    this.DataAlteracao = DataAlteracao;
-  }
+    @ManyToOne
+    @NotNull
+    private Usuario usuario;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    public String getDescricao() {
+        return Descricao;
+    }
+    public void setDescricao(String Descricao) {
+        this.Descricao = Descricao;
+    }
+    public LocalDate getDataPrevista() {
+        return DataPrevista;
+    }
+    public void setDataPrevista(LocalDate DataPrevista) {
+        this.DataPrevista = DataPrevista;
+    }
+    public LocalDate getDataTermino() {
+        return DataTermino;
+    }
+    public void setDataTermino(LocalDate DataTermino) {
+        this.DataTermino = DataTermino;
+    }
   
-  protected Date DataCriacao;
-  
-  protected Date DataAlteracao;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 }

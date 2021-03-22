@@ -13,43 +13,47 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
  * @author JrAdilson
  */
 @Entity
-@NamedQuery(name = Usuario.GET_ALL_USERS, query = "select u from Usuario u order by u.nome")
+@NamedQuery(name =  Usuario.GET_ALL_USERS, query = "select u from Usuario u order by u.nome")
 public class Usuario extends AbstractEntity {
-  public static final String GET_ALL_USERS = "Usuario.getAllUsers";
+    public static final String GET_ALL_USERS = "Usuario.getAllUsers";
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
-  private String nome;
-  private String Email;
-  private String email;
+    @NotNull
+    @NotEmpty
+    private String nome;
 
-  @OneToMany(mappedBy = "usuario")
-  private Collection<Tarefa> tarefas;
-@@ -38,18 +42,10 @@ public void setNome(String nome) {
-  }
+    @NotEmpty
+    @NotNull
+    @Pattern(regexp = "/^[a-z0-9.]+@[a-z0-9]+\\.[a-z]+\\.([a-z]+)?$/i")
+    private String email;
 
-  public String getEmail() {
-    return Email;
-    return email;
-  }
-
-  public void setEmail(String Email) {
-    this.Email = Email;
-  }
-
-  public Long getId() {
-    return id;
-    this.email = Email;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }      
+    @OneToMany(mappedBy = "usuario")
+    private Collection<Tarefa> tarefas;
+    
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String Email) {
+        this.email = Email;
+    }
+   
+    
 }
